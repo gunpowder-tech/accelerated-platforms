@@ -83,6 +83,76 @@ RUN pip install -r ${COMFYUI_CUSTOM_NODE_PATH}/google-genmedia/requirements.txt
 
 RUN comfy node install ComfyUI-VideoHelperSuite@nightly
 RUN comfy node install ComfyUI-Custom-Scripts@nightly
+RUN comfy node install	https://github.com/raindrop313/ComfyUI-WanVideoStartEndFrames
+RUN comfy node install	https://github.com/kijai/ComfyUI-WanVideoWrapper
+RUN comfy node install	https://github.com/kijai/ComfyUI-segment-anything-2
+RUN comfy node install	https://github.com/kijai/ComfyUI-KJNodes
+RUN comfy node install	https://github.com/rgthree/rgthree-comfy
+RUN comfy node install	https://github.com/pharmapsychotic/comfy-cliption
+RUN comfy node install	https://github.com/avenstack/ComfyUI-AV-LatentSync
+RUN comfy node install	https://github.com/MicheleGuidi/ComfyUI-Contextual-SAM2
+RUN comfy node install	https://github.com/Fannovel16/comfyui_controlnet_aux
+RUN comfy node install	https://github.com/cubiq/ComfyUI-Crystools
+RUN comfy node install	https://github.com/pythongosssss/ComfyUI-Custom-Scripts
+RUN comfy node install	https://github.com/yolain/ComfyUI-Easy-Use
+RUN comfy node install	https://github.com/ZHO-ZHO-ZHO/ComfyUI-Elegant-Resource-Monitor
+RUN comfy node install	https://github.com/cubiq/ComfyUI_essentials
+RUN comfy node install	https://github.com/Sephorax/ComfyUI_FaceAnalysis
+RUN comfy node install	https://github.com/FizzleDorf/ComfyUI_Fast_Style_Transfer
+RUN comfy node install	https://github.com/laksjdjf/ComfyUI-Florence2
+RUN comfy node install	https://github.com/Fannovel16/comfyui_frame_interpolation
+RUN comfy node install	https://github.com/kijai/ComfyUI-Get-Meta
+RUN comfy node install	https://github.com/city96/ComfyUI-GGUF
+RUN comfy node install	https://github.com/ltdrdata/ComfyUI-Impact-Pack
+RUN comfy node install	https://github.com/KoreTeknology/ComfyUI-Inpaint-CropAndStitch
+RUN comfy node install	https://github.com/RuolinZheng08/ComfyUI-Inpaint-Anything
+RUN comfy node install	https://github.com/Acly/comfyui-interactive-segmentation
+RUN comfy node install	https://github.com/cubiq/ComfyUI_IPAdapter_plus
+RUN comfy node install	https://github.com/ZHO-ZHO-ZHO/ComfyUI_IPAdapter_plus_V2
+RUN comfy node install	https://github.com/iToolsTech/ComfyUI-iTools
+RUN comfy node install	https://github.com/KLingAI/ComfyUI-KLingAI-API
+RUN comfy node install	https://github.com/smilecase/ComfyUI_LayerStyle_Advance
+RUN comfy node install	https://github.com/utls/ComfyUI-LogicNodes
+RUN comfy node install	https://github.com/Comfy-Org/ComfyUI-Manager
+RUN comfy node install	https://github.com/Gourieff/ComfyUI_MediaMixer
+RUN comfy node install	https://github.com/gokayfem/ComfyUI_memory_cleanup
+RUN comfy node install	https://github.com/ltdrdata/ComfyUI-Model-Downloader
+RUN comfy node install	https://github.com/ShmuelRonen/ComfyUI-NormalCrafterWrapper
+RUN comfy node install	https://github.com/stavsap/comfyui-ollama
+RUN comfy node install	https://github.com/KoreTeknology/ComfyUI_ProPainter_Nodes
+RUN comfy node install	https://github.com/neverbiasu/ComfyUI-SAM2
+RUN comfy node install	https://github.com/storyicon/comfyui_segment_anything
+RUN comfy node install	https://github.com/EvilBT/ComfyUI_slk_joy_caption_two
+RUN comfy node install	https://github.com/kijai/ComfyUI-SUPIR
+RUN comfy node install	https://github.com/ssitu/ComfyUI_UltimateSDUpscale
+RUN comfy node install	https://github.com/city96/ComfyUI-GGUF
+RUN comfy node install	https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite
+RUN comfy node install	https://github.com/Derfuu/Derfuu_ComfyUI_ModdedNodes
+RUN comfy node install	https://github.com/oneTaskAI/flux-context-comfyui
+RUN comfy node install	https://github.com/calcuis/gguf
+RUN comfy node install	https://github.com/LarryJane491/Lora-Training-in-Comfy
+RUN comfy node install	https://github.com/EmanuelRiquelme/masquerade-nodes-comfyui
+RUN comfy node install	https://github.com/WASasquatch/PowerNoiseSuite
+RUN comfy node install	https://github.com/marhensa/sdxl-recommended-res-calc
+RUN comfy node install	https://github.com/shiertier/ComfyUI-TeaCache-lumina2
+RUN comfy node install	https://github.com/XLabs-AI/x-flux-comfyui
+RUN comfy node install	https://github.com/chrisgoringe/cg-use-everywhere
+RUN comfy node install	https://github.com/Conor-Collins/ComfyUI-CoCoTools_IO
+
+# Install Python deps for all installed custom nodes that ship a requirements file
+RUN set -euo pipefail \
+ && shopt -s nullglob \
+ && REQS=( "${COMFY_HOME}"/custom_nodes/*/requirements*.txt ) \
+ && if [ ${#REQS[@]} -gt 0 ]; then \
+      echo "Installing Python deps for ${#REQS[@]} custom nodes"; \
+      for req in "${REQS[@]}"; do \
+        echo ">>> pip install -r ${req}"; \
+        pip install --no-cache-dir -r "${req}" || { echo "WARN: failed ${req}, continuing"; }; \
+      done; \
+    else \
+      echo "No requirements.txt files found under ${COMFY_HOME}/custom_nodes"; \
+    fi
+
 
 ENTRYPOINT  [ "./entrypoint.sh" ]
 CMD ["--", "--listen=${COMFYUI_HOST}", "--port=${COMFYUI_PORT}"]
